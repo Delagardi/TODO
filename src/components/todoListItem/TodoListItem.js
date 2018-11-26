@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './todoListItem.css';
-//TODO something
 
 export default class TodoListItem extends Component {
   constructor() {
@@ -11,14 +10,18 @@ export default class TodoListItem extends Component {
     }
 
     this.onLabelClick = () => {
-      this.setState({
-        done: true
+      this.setState(({ done }) => {
+        return {
+          done: !done
+        }
       });
     };
 
     this.onMarkImportant = () => {
-      this.setState({
-        important: true
+      this.setState((state) => {
+        return {
+          important: !state.important
+        }
       });
     };
   }
@@ -35,11 +38,6 @@ export default class TodoListItem extends Component {
     if (important) {
       classNames += ' important';
     }
-    
-    // const styleItem = {
-    //   color: important ? 'steelblue' : 'black',
-    //   fontWeight: important ? 'bold' : 'normal'
-    // }
 
     return (
       <span className={ classNames }>
