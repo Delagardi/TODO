@@ -3,11 +3,14 @@ import Header from '../header';
 import Search from '../search';
 import TodoList from '../todoList';
 import ItemStatusFilter from '../itemStatusFilter';
+import TodoListItemAdd from '../todoListItemAdd';
 import './app.css';
 
-class  App extends Component {
+export default class  App extends Component {
   constructor() {
     super();
+
+    let maxId = 100;
 
     this.state = {
       listData: [
@@ -18,7 +21,26 @@ class  App extends Component {
       ]
     }
 
-    this.onDeletedItem = (id) => {
+    this.onAddedFunc = (text) => {
+      const newItem = {
+        label: text,
+        important: false,
+        id: maxId++
+      }
+
+      this.setState(({ listData }) => {
+        const newListData = [
+          ...listData, 
+          newItem
+        ];
+        
+        return {
+          listData: newListData
+        }
+      })
+    }
+
+    this.onDeletedFunc = (id) => {
       this.setState(({ listData }) => {
         const index = listData.findIndex((el) => id === el.id);
         
@@ -31,6 +53,14 @@ class  App extends Component {
           listData: newListData
         }
       });
+    }
+
+    this.onToggleImportantFunc = (id) => {
+      console.log('Toggle important');
+    }
+
+    this.onToggleDoneFunc = (id) => {
+      console.log('Toggle done');
     }
   }
   render() {
@@ -45,10 +75,12 @@ class  App extends Component {
         </div>
         <TodoList 
           todos={ listData }
-          onDeletedFromApp={this.onDeletedItem}/>
+          onDeletedFromApp={this.onDeletedFunc}
+          onToggleImportant={this.onToggleImportantFunc}
+          onToggleDone={this.onToggleDoneFunc}/>
+        <TodoListItemAdd
+         onAdded={this.onAddedFunc}/>
       </div>
     );
   }
 }
-
-export default App;
