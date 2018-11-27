@@ -19,14 +19,17 @@ class  App extends Component {
     }
 
     this.onDeletedItem = (id) => {
-      this.setState((state) => {
-        const index = this.state.listData.findIndex((el) => id === el.id);
+      this.setState(({ listData }) => {
+        const index = listData.findIndex((el) => id === el.id);
         
-        const before = this.state.listData.slice(0, index);
-        const after = this.state.listData.slice(index+1);
-        const newListData = [...before, ...after];
+        const newListData = [
+          ...listData.slice(0, index), 
+          ...listData.slice(index+1)
+        ];
 
-        console.log(newListData);
+        return {
+          listData: newListData
+        }
       });
     }
   }
