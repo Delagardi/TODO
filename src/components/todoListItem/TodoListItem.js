@@ -2,13 +2,6 @@ import React, { Component } from 'react';
 import './todoListItem.css';
 
 export default class TodoListItem extends Component {
-  constructor() {
-    super();
-    this.state = {
-      done: false,
-      important: false
-    }
-  }
 
   render() {
     const { 
