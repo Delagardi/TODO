@@ -9,17 +9,8 @@ import './app.css';
 export default class  App extends Component {
   constructor() {
     super();
-
+    
     this.maxId = 100;
-
-    this.createTodoItem = (label) => {
-      return {
-        label,
-        important: false,
-        done: false,
-        id: this.maxId++
-      }
-    }
 
     this.state = {
       listData: [
@@ -31,99 +22,108 @@ export default class  App extends Component {
       term: '',
       filterToggle: 'all'
     }
+  }
 
-    this.onAddedFunc = (text) => {
-      const newItem = this.createTodoItem(text);
+  onAddedFunc = (text) => {
+    const newItem = this.createTodoItem(text);
 
-      this.setState(({ listData }) => {
-        const newListData = [
-          ...listData, 
-          newItem
-        ];
-        
-        return {
-          listData: newListData
-        }
-      })
-    }
-
-    this.onDeletedFunc = (id) => {
-      this.setState(({ listData }) => {
-        const index = listData.findIndex((el) => id === el.id);
-        
-        const newListData = [
-          ...listData.slice(0, index), 
-          ...listData.slice(index+1)
-        ];
-
-        return {
-          listData: newListData
-        }
-      });
-    }
-
-    this.toggleProperty = (arr, id, propName) => {
-      const index = arr.findIndex((el) => id === el.id);
-      const oldItem = arr[index];
-      const newItem = {
-        ...oldItem,
-        [propName]: !oldItem.propName
-      }
-      
-      return [
-        ...arr.slice(0, index),
-        newItem, 
-        ...arr.slice(index+1)
+    this.setState(({ listData }) => {
+      const newListData = [
+        ...listData, 
+        newItem
       ];
-    }
+      
+      return {
+        listData: newListData
+      }
+    })
+  }
 
-    this.onToggleDoneFunc = (id) => {
-      this.setState(({ listData }) => {
-        return ({
-          listData: this.toggleProperty(listData, id, 'done')
-        });
+  onDeletedFunc = (id) => {
+    this.setState(({ listData }) => {
+      const index = listData.findIndex((el) => id === el.id);
+      
+      const newListData = [
+        ...listData.slice(0, index), 
+        ...listData.slice(index+1)
+      ];
+
+      return {
+        listData: newListData
+      }
+    });
+  }
+
+  toggleProperty = (arr, id, propName) => {
+    const index = arr.findIndex((el) => id === el.id);
+    const oldItem = arr[index];
+    const newItem = {
+      ...oldItem,
+      [propName]: !oldItem.propName
+    }
+    
+    return [
+      ...arr.slice(0, index),
+      newItem, 
+      ...arr.slice(index+1)
+    ];
+  }
+
+  onToggleDoneFunc = (id) => {
+    this.setState(({ listData }) => {
+      return ({
+        listData: this.toggleProperty(listData, id, 'done')
       });
-    }
+    });
+  }
 
-    this.onToggleImportantFunc = (id) => {
-      this.setState(({ listData }) => {
-        return ({
-          listData: this.toggleProperty(listData, id, 'important')
-        });
+  onToggleImportantFunc = (id) => {
+    this.setState(({ listData }) => {
+      return ({
+        listData: this.toggleProperty(listData, id, 'important')
       });
+    });
+  }
+
+  searchResults = (items, term) => {
+    if (term.length === 0) {
+      return items;
     }
 
-    this.searchResults = (items, term) => {
-      if (term.length === 0) {
+    return items.filter( (item) => item.label
+                                    .toLowerCase()
+                                    .indexOf(term.toLowerCase()) > -1);
+  }
+
+  onSearchChangeFunc = (term) => {
+    this.setState({ term });
+  }
+
+  createTodoItem = (label) => {
+    return {
+      label,
+      important: false,
+      done: false,
+      id: this.maxId++
+    }
+  }
+
+  onWhatClickedFunc = (filterToggle) => {
+    this.setState({ filterToggle });
+  }
+  
+  filter = (items, filterToggle) => {
+    switch (filterToggle) {
+      case 'all':
         return items;
-      }
-
-      return items.filter( (item) => item.label
-                                      .toLowerCase()
-                                      .indexOf(term.toLowerCase()) > -1);
-    }
-
-    this.onSearchChangeFunc = (term) => {
-      this.setState({ term });
-    }
-
-    this.onWhatClickedFunc = (filterToggle) => {
-      this.setState({ filterToggle });
-    }
-
-    this.filter = (items, filterToggle) => {
-      switch (filterToggle) {
-        case 'all':
-          return items;
-        case 'active':
-          return items.filter( (item) => !item.done);
-        case 'done':
-          return items.filter( (item) => item.done );
-        case 'important':
-          return items.filter( (item) => item.important );
-        default:
-          return items;
-      }
+      case 'active':
+        return items.filter( (item) => !item.done);
+      case 'done':
+        return items.filter( (item) => item.done );
+      case 'important':
+        return items.filter( (item) => item.important );
+      default:
+        return items;
     }
   }
   render() {
