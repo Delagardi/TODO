@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './search.css';
 
-const Search = () => {
-  return <input className="search-input" placeholder="Search here"/>
-}
+export default class Search extends Component {
+  constructor() {
+    super();
 
-export default Search;
+    this.state = {
+      term: ''
+    }
+  }
+  onSearchChange = (event) => {
+    const searchTerm = event.target.value;
+    this.setState({
+      term: searchTerm
+    });
+    this.props.onSearchChange(searchTerm);
+  }
+  render() {
+  return <input 
+            className="search-input"
+            value={this.state.term}
+            onChange={this.onSearchChange}
+            placeholder="Search here"/>
+  }
+}

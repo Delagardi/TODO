@@ -27,7 +27,8 @@ export default class  App extends Component {
         this.createTodoItem('Eat breakfast'),
         this.createTodoItem('Build my own application'),
         this.createTodoItem('Drink some Burn')
-      ]
+      ],
+      term: ''
     }
 
     this.onAddedFunc = (text) => {
@@ -90,22 +91,40 @@ export default class  App extends Component {
         });
       });
     }
+
+    this.searchResults = (items, term) => {
+      if (term.length === 0) {
+        return items;
+      }
+
+      return items.filter( (item) => item.label
+                                      .toLowerCase()
+                                      .indexOf(term.toLowerCase()) > -1);
+    }
+
+    this.onSearchChangeFunc = (term) => {
+      this.setState({ term });
+    }
   }
   render() {
-    const { listData } = this.state;
+    const { listData, term } = this.state;
     const doneCount = listData
                         .filter( (el) => el.done === true ).length;
     const todoCount = listData.length - doneCount;
+    const showData = this.searchResults(listData, term);
+
 
     return (
       <div className='todo-app'>
         <Header toDo={todoCount} done={doneCount} />
         <div>
-          <Search/>
-          <ItemStatusFilter/>
+          <Search
+            onSearchChange={this.onSearchChangeFunc}/>
+          <ItemStatusFilter
+            onWhatClicked={this.onWhatClicked}/>
         </div>
         <TodoList 
-          todos={ listData }
+          todos={ showData }
           onDeletedFromApp={this.onDeletedFunc}
           onToggleImportant={this.onToggleImportantFunc}
           onToggleDone={this.onToggleDoneFunc}/>

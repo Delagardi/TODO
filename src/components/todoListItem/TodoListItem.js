@@ -12,6 +12,7 @@ export default class TodoListItem extends Component {
       done, 
       important 
     } = this.props;
+
     let classNames = "todo-list-item";
 
     if (done) {

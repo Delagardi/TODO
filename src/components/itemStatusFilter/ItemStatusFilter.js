@@ -1,13 +1,30 @@
 import React, { Component } from 'react'
 
 export default class ItemStatusFilter extends Component {
+  
   render() {
+    const { onWhatClicked } = this.props;
+    console.log('THIS.PROPS:');
+    console.log(this.props);
+
     return (
       <div className="btn-group">
-        <button className="btn btn-info">All</button>
-        <button className="btn btn-outline-secondary">Active</button>
-        <button className="btn btn-outline-secondary">Important</button>
-        <button className="btn btn-outline-secondary">Done</button>
+        <button 
+          id='all'
+          className="btn btn-info"
+          onClick={onWhatClicked}>All</button>
+        <button 
+          id="activeItems"
+          className="btn btn-outline-secondary"
+          onClick={onWhatClicked}>Active</button>
+        <button
+          id="important" 
+          className="btn btn-outline-secondary"
+          onClick={onWhatClicked}>Important</button>
+        <button
+          id="done" 
+          className="btn btn-outline-secondary"
+          onClick={onWhatClicked}>Done</button>
       </div>
     );
   }
