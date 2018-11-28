@@ -1,30 +1,35 @@
 import React, { Component } from 'react'
 
 export default class ItemStatusFilter extends Component {
+  constructor() {
+    super();
+
+    this.buttons = [
+      {name: 'all', label: 'All'},
+      {name: 'active', label: 'Active'},
+      {name: 'important', label: 'Important'},
+      {name: 'done', label: 'Done'}
+    ]
+  }
   
   render() {
-    const { onWhatClicked } = this.props;
-    console.log('THIS.PROPS:');
-    console.log(this.props);
+    const { filterToggle, onWhatClicked } = this.props;
 
+    const buttons = this.buttons.map( ({ name, label }) => {
+      const isActive = filterToggle === name;
+      const classFilter = isActive ? 'btn-info' : 'btn-outline-secondary'
+
+      return (
+        <button
+          key={name}
+          type="button"
+          className={`btn ${classFilter}`}
+          onClick={() => onWhatClicked(name)}>{label}</button>
+      )
+    });
     return (
       <div className="btn-group">
-        <button 
-          id='all'
-          className="btn btn-info"
-          onClick={onWhatClicked}>All</button>
-        <button 
-          id="activeItems"
-          className="btn btn-outline-secondary"
-          onClick={onWhatClicked}>Active</button>
-        <button
-          id="important" 
-          className="btn btn-outline-secondary"
-          onClick={onWhatClicked}>Important</button>
-        <button
-          id="done" 
-          className="btn btn-outline-secondary"
-          onClick={onWhatClicked}>Done</button>
+        { buttons }
       </div>
     );
   }

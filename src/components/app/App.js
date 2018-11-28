@@ -28,7 +28,8 @@ export default class  App extends Component {
         this.createTodoItem('Build my own application'),
         this.createTodoItem('Drink some Burn')
       ],
-      term: ''
+      term: '',
+      filterToggle: 'all'
     }
 
     this.onAddedFunc = (text) => {
@@ -105,13 +106,32 @@ export default class  App extends Component {
     this.onSearchChangeFunc = (term) => {
       this.setState({ term });
     }
+
+    this.onWhatClickedFunc = (filterToggle) => {
+      this.setState({ filterToggle });
+    }
+
+    this.filter = (items, filterToggle) => {
+      switch (filterToggle) {
+        case 'all':
+          return items;
+        case 'active':
+          return items.filter( (item) => !item.done);
+        case 'done':
+          return items.filter( (item) => item.done );
+        case 'important':
+          return items.filter( (item) => item.important );
+        default:
+          return items;
+      }
+    }
   }
   render() {
-    const { listData, term } = this.state;
+    const { listData, term, filterToggle } = this.state;
     const doneCount = listData
                         .filter( (el) => el.done === true ).length;
     const todoCount = listData.length - doneCount;
-    const showData = this.searchResults(listData, term);
+    const showData = this.filter(this.searchResults(listData, term), filterToggle);
 
 
     return (
@@ -121,7 +141,8 @@ export default class  App extends Component {
           <Search
             onSearchChange={this.onSearchChangeFunc}/>
           <ItemStatusFilter
-            onWhatClicked={this.onWhatClicked}/>
+            filterToggle={filterToggle}
+            onWhatClicked={this.onWhatClickedFunc}/>
         </div>
         <TodoList 
           todos={ showData }
