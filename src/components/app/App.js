@@ -88,10 +88,13 @@ export default class  App extends Component {
   }
   render() {
     const { listData } = this.state;
+    const doneCount = listData
+                        .filter( (el) => el.done === true ).length;
+    const todoCount = listData.length - doneCount;
 
     return (
       <div className='todo-app'>
-        <Header toDo={3} done={0} />
+        <Header toDo={todoCount} done={doneCount} />
         <div>
           <Search/>
           <ItemStatusFilter/>
