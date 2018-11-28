@@ -60,30 +60,35 @@ export default class  App extends Component {
       });
     }
 
+    this.toggleProperty = (arr, id, propName) => {
+      const index = arr.findIndex((el) => id === el.id);
+      const oldItem = arr[index];
+      const newItem = {
+        ...oldItem,
+        [propName]: !oldItem.propName
+      }
+      
+      return [
+        ...arr.slice(0, index),
+        newItem, 
+        ...arr.slice(index+1)
+      ];
+    }
+
     this.onToggleDoneFunc = (id) => {
       this.setState(({ listData }) => {
-        const index = listData.findIndex((el) => id === el.id);
-        const oldItem = listData[index];
-        const newItem = {
-          ...oldItem,
-          done: !oldItem.done
-        }
-        
-        const newListData = [
-          ...listData.slice(0, index),
-          newItem, 
-          ...listData.slice(index+1)
-        ];
-
         return ({
-          listData: newListData
+          listData: this.toggleProperty(listData, id, 'done')
         });
-        
       });
     }
 
     this.onToggleImportantFunc = (id) => {
-      console.log('Toggle important');
+      this.setState(({ listData }) => {
+        return ({
+          listData: this.toggleProperty(listData, id, 'important')
+        });
+      });
     }
   }
   render() {
