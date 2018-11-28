@@ -10,23 +10,28 @@ export default class  App extends Component {
   constructor() {
     super();
 
-    let maxId = 100;
+    this.maxId = 100;
+
+    this.createTodoItem = (label) => {
+      return {
+        label,
+        important: false,
+        done: false,
+        id: this.maxId++
+      }
+    }
 
     this.state = {
       listData: [
-        {label: 'Drink tea', important: false, id: 1},
-        {label: 'Eat breakfast', important: false, id: 2},
-        {label: 'Build my own application', important: true, id: 3},
-        {label: 'Drink some Burn', important: false, id: 4}
+        this.createTodoItem('Drink tea'),
+        this.createTodoItem('Eat breakfast'),
+        this.createTodoItem('Build my own application'),
+        this.createTodoItem('Drink some Burn')
       ]
     }
 
     this.onAddedFunc = (text) => {
-      const newItem = {
-        label: text,
-        important: false,
-        id: maxId++
-      }
+      const newItem = this.createTodoItem(text);
 
       this.setState(({ listData }) => {
         const newListData = [
@@ -55,12 +60,30 @@ export default class  App extends Component {
       });
     }
 
-    this.onToggleImportantFunc = (id) => {
-      console.log('Toggle important');
+    this.onToggleDoneFunc = (id) => {
+      this.setState(({ listData }) => {
+        const index = listData.findIndex((el) => id === el.id);
+        const oldItem = listData[index];
+        const newItem = {
+          ...oldItem,
+          done: !oldItem.done
+        }
+        
+        const newListData = [
+          ...listData.slice(0, index),
+          newItem, 
+          ...listData.slice(index+1)
+        ];
+
+        return ({
+          listData: newListData
+        });
+        
+      });
     }
 
-    this.onToggleDoneFunc = (id) => {
-      console.log('Toggle done');
+    this.onToggleImportantFunc = (id) => {
+      console.log('Toggle important');
     }
   }
   render() {
