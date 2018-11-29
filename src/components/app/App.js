@@ -137,7 +137,7 @@ export default class  App extends Component {
     return (
       <div className='todo-app'>
         <Header toDo={todoCount} done={doneCount} />
-        <div>
+        <div className='d-flex'>
           <Search
             onSearchChange={this.onSearchChangeFunc}/>
           <ItemStatusFilter

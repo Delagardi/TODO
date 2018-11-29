@@ -17,8 +17,8 @@ export default class Search extends Component {
     this.props.onSearchChange(searchTerm);
   }
   render() {
-  return <input 
-            className="search-input"
+    return <input 
+            className="form-control search-input"
             value={this.state.term}
             onChange={this.onSearchChange}
             placeholder="Search here"/>

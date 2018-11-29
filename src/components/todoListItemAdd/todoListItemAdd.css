@@ -4,13 +4,13 @@
 
 .from-control {
   margin-right: 5px;
-  width: auto;
   flex-grow: 1;
   width: 224px;
-  vertical-align: middle;
+  padding: .375rem .75rem;
+  /* vertical-align: middle;
   font-size: 1rem;
   line-height: 1.5;
   border-radius: 5px;
   border: 1px black solid;
-  padding: .375rem .75rem;
+  */
 }
