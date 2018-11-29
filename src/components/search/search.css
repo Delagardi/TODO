@@ -2,18 +2,12 @@
   flex-grow: 1;
   width: 224px;
   margin-right: 5px;
-  /* vertical-align: middle;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: 5px;
-  border: 1px grey solid;
-  padding: .375rem .75rem; */
 }
 
 input:focus, textarea:focus, select:focus {
-  outline-offset: none;
+  outline-offset: unset;
 }
 
 :focus {
-  outline: none;
+  outline: unset;
 }
